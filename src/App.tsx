@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ExperinceBar } from './components/ExperienceBar'
+import './styles/global.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <ExperinceBar />
+
+      <h1
+        style={{
+          textAlign: 'center',
+          marginTop: '4rem',
+          fontSize: '5rem'
+        }}
+      >
+        NLW#4🚀
+      </h1>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
