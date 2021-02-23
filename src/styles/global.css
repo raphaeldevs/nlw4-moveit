@@ -52,15 +52,3 @@ a {
 
   color: inherit;
 }
-
-.container {
-  max-width: 992px;
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-
-  margin: 0 auto;
-
-  padding: 2.5rem 2rem;
-}
