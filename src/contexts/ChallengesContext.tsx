@@ -75,8 +75,6 @@ export function ChallengesProvider({
 
     const challenge = challenges[randomChallengeIndex]
 
-    console.log(challenge, randomChallengeIndex)
-
     setActiveChallenge(challenge)
 
     new Audio('/notification.mp3').play()
