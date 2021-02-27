@@ -10,7 +10,7 @@
   License Ok OK
 -->
 
-O <a href="http://moveit-bice-chi.vercel.app/">Move.it</a> um pomodoro gameficado que o desafia a cada fim de ciclo de trabalho, a fim de sempre lembrá-lo de se exercitar
+O <a href="http://moveit-bice-chi.vercel.app/">Move.it</a> é um pomodoro gameficado que o desafia a cada fim de ciclo de trabalho, a fim de sempre lembrá-lo de se exercitar
 
 ## :toolbox: Tecnologias
 
