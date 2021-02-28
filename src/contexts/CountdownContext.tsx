@@ -11,7 +11,7 @@ import { ChallengesContext } from './ChallengesContext'
 interface CountdownContextData {
   minutes: number
   seconds: number
-  timePercent: number
+  time: number
   hasFinished: boolean
   isActive: boolean
   startCountdown: () => void
@@ -37,9 +37,6 @@ export function CountdownProvider({ children }: CountdownContextProps) {
 
   const minutes = Math.floor(time / 60)
   const seconds = time % 60
-  const timePercent = Math.floor(
-    ((twentyFiveMinutes - time) / twentyFiveMinutes) * 100
-  )
 
   function startCountdown() {
     setIsActive(true)
@@ -67,7 +64,7 @@ export function CountdownProvider({ children }: CountdownContextProps) {
   const contextValues = {
     minutes,
     seconds,
-    timePercent,
+    time,
     hasFinished,
     isActive,
     startCountdown,

@@ -8,7 +8,7 @@ export function Countdown() {
   const {
     minutes,
     seconds,
-    timePercent,
+    time,
     hasFinished,
     isActive,
     startCountdown,
@@ -17,6 +17,12 @@ export function Countdown() {
 
   const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('')
   const [secondLeft, secondRight] = String(seconds).padStart(2, '0').split('')
+
+  const twentyFiveMinutes = 0.1 * 60
+
+  const currentTimePercent = Math.floor(
+    ((twentyFiveMinutes - time) / twentyFiveMinutes) * 100
+  )
 
   return (
     <div>
@@ -50,7 +56,7 @@ export function Countdown() {
               Abandonar ciclo
               <img src="icons/close.svg" alt="Close" />
 
-              <div style={{ width: `${timePercent}%` }}/>
+              <div style={{ width: `${currentTimePercent ?? 0}%` }}/>
             </button>
           ) : (
             <button
