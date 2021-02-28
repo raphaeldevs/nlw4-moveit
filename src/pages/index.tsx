@@ -9,6 +9,7 @@ import { ChallengeBox } from '../components/ChallengeBox'
 
 import { CountdownProvider } from '../contexts/CountdownContext'
 import { ChallengesProvider } from '../contexts/ChallengesContext'
+import { AsideBar } from '../components/AsideBar'
 
 import styles from '../styles/pages/Home.module.css'
 
@@ -25,25 +26,29 @@ export default function Home(props: HomeProps) {
       currentExperience={props.currentExperience}
       challengesCompleted={props.challengesCompleted}
     >
-      <div className={styles.container}>
-        <Head>
-          <title>Início | move.it</title>
-        </Head>
+      <Head>
+        <title>Início | move.it</title>
+      </Head>
 
-        <ExperinceBar />
+      <div className={styles.wrapper}>
+        <AsideBar />
 
-        <CountdownProvider>
-          <section>
-            <div>
-              <Profile />
-              <CompletedChallenges />
-              <Countdown />
-            </div>
-            <div>
-              <ChallengeBox />
-            </div>
-          </section>
-        </CountdownProvider>
+        <div className={styles.container}>
+          <ExperinceBar />
+
+          <CountdownProvider>
+            <section>
+              <div>
+                <Profile />
+                <CompletedChallenges />
+                <Countdown />
+              </div>
+              <div>
+                <ChallengeBox />
+              </div>
+            </section>
+          </CountdownProvider>
+        </div>
       </div>
     </ChallengesProvider>
   )
