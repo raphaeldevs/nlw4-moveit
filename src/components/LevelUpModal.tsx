@@ -9,13 +9,20 @@ export function LevelUpModal() {
   return (
     <div className={styles.overlay}>
       <div className={styles.container}>
-        <header>{level}</header>
+        <div>
+          <header>{level}</header>
 
-        <strong>Parabéns!</strong>
-        <p>Você alcançou um novo level.</p>
+          <strong>Parabéns!</strong>
+          <p>Você alcançou um novo level.</p>
 
-        <button type="button" onClick={closeLevelUpModal}>
-          <img src="icons/close.svg" alt="Fechar modal" />
+          <button className={styles.close} type="button" onClick={closeLevelUpModal}>
+            <img src="icons/close.svg" alt="Fechar modal" />
+          </button>
+        </div>
+
+        <button type="button" className={styles.twitter}>
+          Compartilhar no Twitter 
+          <img src="icons/twitter.svg" alt="Twitter"/>
         </button>
       </div>
     </div>
