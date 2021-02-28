@@ -8,6 +8,7 @@ export function Countdown() {
   const {
     minutes,
     seconds,
+    timePercent,
     hasFinished,
     isActive,
     startCountdown,
@@ -47,6 +48,9 @@ export function Countdown() {
               onClick={resetCountdown}
             >
               Abandonar ciclo
+              <img src="icons/close.svg" alt="Close" />
+
+              <div style={{ width: `${timePercent}%` }}/>
             </button>
           ) : (
             <button
