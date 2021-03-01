@@ -7,9 +7,10 @@ import styles from '../styles/components/AsideBar.module.css'
 interface NavLinkProps {
   href: string
   icon: string
+  alt: string
 }
 
-function NavLink({ href, icon }: NavLinkProps) {
+function NavLink({ href, icon, alt }: NavLinkProps) {
   const { pathname } = useRouter()
 
   const isSelected = href === pathname
@@ -18,12 +19,12 @@ function NavLink({ href, icon }: NavLinkProps) {
   const iconSelected = icon.replace(iconName, `${iconName}-selected`)
 
   return (
-    <li className={isSelected && styles.selected}>
+    <li className={isSelected ? styles.selected : null}>
       <Link href={`${href}`}>
         <a>
           {isSelected
-            ? <img src={`${iconSelected}`} alt="Home" />
-            : <img src={`${icon}`} alt="Home" /> }
+            ? <img src={`${iconSelected}`} alt={alt} />
+            : <img src={`${icon}`} alt={alt} /> }
         </a>
       </Link>
     </li>
@@ -37,9 +38,9 @@ export function AsideBar() {
 
       <nav className={styles.icons}>
         <ul>
-          <NavLink href="/" icon="/icons/home.svg" />
+          <NavLink href="/" icon="/icons/home.svg" alt="Home" />
 
-          <NavLink href="/ranking" icon="/icons/ranking.svg" />
+          <NavLink href="/ranking" icon="/icons/ranking.svg" alt="Ranking" />
         </ul>
       </nav>
     </aside>
