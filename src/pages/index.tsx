@@ -1,67 +1,102 @@
-import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 
-import { ExperinceBar } from '../components/ExperienceBar'
-import { Profile } from '../components/Profile'
-import { CompletedChallenges } from '../components/CompletedChallenges'
-import { Countdown } from '../components/Countdown'
-import { ChallengeBox } from '../components/ChallengeBox'
+import { GetServerSideProps } from 'next'
 
-import { CountdownProvider } from '../contexts/CountdownContext'
-import { ChallengesProvider } from '../contexts/ChallengesContext'
-import { AsideBar } from '../components/AsideBar'
+import { useRouter } from 'next/router'
 
-import styles from '../styles/pages/Home.module.css'
+import { ChangeEvent, FormEvent, useState } from 'react'
 
-interface HomeProps {
-  level: number
-  currentExperience: number
-  challengesCompleted: number
+import styles from '../styles/pages/Login.module.css'
+
+interface LoginProps {
+  client_id: string
 }
 
-export default function Home(props: HomeProps) {
+export default function Login({ client_id }: LoginProps) {
+  const history = useRouter()
+
+  const [canSubmit, setCanSubmit] = useState(false)
+  const [username, setUsername] = useState('')
+
+  function handleInputChange({ target: input }: ChangeEvent<HTMLInputElement>) {
+    const { value: username } = input
+
+    if (username.length) {
+      setUsername(username)
+
+      return setCanSubmit(true)
+    }
+
+    setCanSubmit(false)
+  }
+
+  function handleFormSubmit(event: FormEvent) {
+    event.preventDefault()
+    
+    const urlLoginParams = new URLSearchParams({
+      client_id,
+      login: username,
+      scope: 'user:email'
+    }).toString()
+
+    const loginUrl = 
+      `https://github.com/login/oauth/authorize?${urlLoginParams}`
+
+    history.push(loginUrl)
+  }
+
   return (
-    <ChallengesProvider
-      level={props.level}
-      currentExperience={props.currentExperience}
-      challengesCompleted={props.challengesCompleted}
-    >
+    <>
       <Head>
-        <title>Início | move.it</title>
+        <title>Bem vindo ao move.it</title>
       </Head>
 
-      <div className={styles.wrapper}>
-        <AsideBar />
+      <div className={styles.container}>
+        <form onSubmit={handleFormSubmit}>
+          <img src="logo-full-white.svg" alt="Logo do Move.it" />
 
-        <div className={styles.container}>
-          <ExperinceBar />
+          <h1>Bem-vindo</h1>
+          <p>
+            <img src="icons/github.svg" alt="Logo do GitHub" />
+            Faça login com seu Github <br /> para começar
+          </p>
 
-          <CountdownProvider>
-            <section>
-              <div>
-                <Profile />
-                <CompletedChallenges />
-                <Countdown />
-              </div>
-              <div>
-                <ChallengeBox />
-              </div>
-            </section>
-          </CountdownProvider>
-        </div>
+          <fieldset>
+            <input
+              className={styles.inputSearch}
+              type="text"
+              name="username"
+              placeholder="Digite seu username"
+              onChange={handleInputChange}
+              required
+            />
+
+            {canSubmit ? (
+              <input
+                className={`${styles.inputSubmit} ${styles.canSubmit}`}
+                type="submit"
+              />
+            ) : (
+              <input
+                className={styles.inputSubmit}
+                type="submit"
+              />
+            )}
+          </fieldset>
+        </form>
       </div>
-    </ChallengesProvider>
+    </>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { level, currentExperience, challengesCompleted } = context.req.cookies
+  const { GITHUB_CLIENT_ID } = process.env
+
+  console.log(context.req.headers)
 
   return {
     props: {
-      level: Number(level) || null,
-      currentExperience: Number(currentExperience) || null,
-      challengesCompleted: Number(challengesCompleted) || null
+      client_id: GITHUB_CLIENT_ID
     }
   }
 }
