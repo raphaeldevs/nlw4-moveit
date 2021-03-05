@@ -4,7 +4,22 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { MongoClient, Db } from 'mongodb'
 
-const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, MONGODB_URI } = process.env
+import jwt from 'jsonwebtoken'
+
+import Cookies from 'cookies'
+
+const { 
+  APP_SECRET,
+  GITHUB_CLIENT_ID, 
+  GITHUB_CLIENT_SECRET, 
+  MONGODB_URI
+} = process.env
+
+interface UserData {
+  avatar_url: string
+  name: string
+  username: string
+}
 
 let cachedDatabase: Db
 
@@ -42,7 +57,7 @@ async function getUserAccessToken(code: string) {
   return access_token
 }
 
-async function getUserData(access_token: string) {
+async function getUserData(access_token: string): Promise<UserData> {
   const { data: user } = await axios.get('https://api.github.com/user', {
     headers: {
       Authorization: `token ${access_token}`
@@ -51,31 +66,52 @@ async function getUserData(access_token: string) {
   
   const { 
     avatar_url,
-    name
+    name,
+    login: username
   } = user
 
   return { 
     avatar_url,
-    name
+    name,
+    username
   }
 }
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
   const { code } = request.query
 
-  const database = await connectToDatabase(MONGODB_URI)
+  const cookies = new Cookies(request, response)
 
+  const database = await connectToDatabase(MONGODB_URI)
   const collection = database.collection('users')
 
   const access_token = await getUserAccessToken(String(code))
 
-  const user = await getUserData(access_token)
+  const userData = await getUserData(access_token)
 
-  const userAlreadyExists = await collection.findOne(user)
+  const user = await collection.findOne(userData)
 
-  if (!userAlreadyExists) {
-    await collection.insertOne(user)
+  if (!user) {
+    const { insertedId } = await collection.insertOne(userData)
+
+    const userToken = jwt.sign(
+      { id: insertedId, username: userData.username },
+      APP_SECRET,
+      { expiresIn: '30d' }
+    )
+  
+    cookies.set('token', userToken, { httpOnly: false })
+  
+    return response.redirect('/').end()
   }
 
-  return response.json({ user: userAlreadyExists ? "exits" : "no exists" })
+  const userToken = jwt.sign(
+    { id: user._id, username: user.username },
+    APP_SECRET,
+    { expiresIn: '30d' }
+  )
+
+  cookies.set('token', userToken, { httpOnly: false })
+
+  return response.redirect('/app').end()
 }
