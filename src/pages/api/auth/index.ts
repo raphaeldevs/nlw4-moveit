@@ -102,7 +102,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
   
     cookies.set('token', userToken, { httpOnly: false })
   
-    return response.redirect('/').end()
+    return response.redirect('/app').end()
   }
 
   const userToken = jwt.sign(

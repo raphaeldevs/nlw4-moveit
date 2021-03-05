@@ -38,7 +38,7 @@ export function AsideBar() {
 
       <nav className={styles.icons}>
         <ul>
-          <NavLink href="/" icon="/icons/home.svg" alt="Home" />
+          <NavLink href="/app" icon="/icons/home.svg" alt="Home" />
 
           <NavLink href="/ranking" icon="/icons/ranking.svg" alt="Ranking" />
         </ul>
