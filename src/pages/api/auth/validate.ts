@@ -12,6 +12,6 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
 
     const isValidToken = jwt.verify(token, APP_SECRET)
 
-    return response.json({ isAuthenticated: isValidToken })
+    return response.json({ isAuthenticated: Boolean(isValidToken) })
   }
 }
