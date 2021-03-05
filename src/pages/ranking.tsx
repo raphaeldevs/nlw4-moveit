@@ -1,10 +1,19 @@
 import Head from 'next/head'
 
+import { useContext } from 'react'
+
+import { AccessDenied } from '../components/AccessDenied'
 import { AsideBar } from '../components/AsideBar'
+
+import { AuthContext } from '../contexts/AuthContext'
 
 import styles from '../styles/pages/Ranking.module.css'
 
 export default function Ranking() {
+  const { isAuthenticated } = useContext(AuthContext)
+
+  if (!isAuthenticated) return <AccessDenied />
+
   return (
     <>
       <Head>

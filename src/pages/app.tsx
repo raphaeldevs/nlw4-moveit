@@ -1,4 +1,7 @@
+import { useContext } from 'react'
+
 import { GetServerSideProps } from 'next'
+
 import Head from 'next/head'
 
 import { ExperinceBar } from '../components/ExperienceBar'
@@ -6,10 +9,12 @@ import { Profile } from '../components/Profile'
 import { CompletedChallenges } from '../components/CompletedChallenges'
 import { Countdown } from '../components/Countdown'
 import { ChallengeBox } from '../components/ChallengeBox'
+import { AsideBar } from '../components/AsideBar'
+import { AccessDenied } from '../components/AccessDenied'
 
 import { CountdownProvider } from '../contexts/CountdownContext'
 import { ChallengesProvider } from '../contexts/ChallengesContext'
-import { AsideBar } from '../components/AsideBar'
+import { AuthContext } from '../contexts/AuthContext'
 
 import styles from '../styles/pages/Home.module.css'
 
@@ -20,6 +25,10 @@ interface HomeProps {
 }
 
 export default function Home(props: HomeProps) {
+  const { isAuthenticated } = useContext(AuthContext)
+
+  if (!isAuthenticated) return <AccessDenied />
+
   return (
     <ChallengesProvider
       level={props.level}

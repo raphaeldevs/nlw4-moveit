@@ -1,10 +1,14 @@
+import { ChangeEvent, FormEvent, useContext, useState } from 'react'
+
 import Head from 'next/head'
 
 import { GetServerSideProps } from 'next'
 
 import { useRouter } from 'next/router'
 
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { Loading } from '../components/Loading'
+
+import { AuthContext } from '../contexts/AuthContext'
 
 import styles from '../styles/pages/Login.module.css'
 
@@ -13,7 +17,9 @@ interface LoginProps {
 }
 
 export default function Login({ client_id }: LoginProps) {
-  const history = useRouter()
+  const router = useRouter()
+
+  const { isAuthenticated } = useContext(AuthContext)
 
   const [canSubmit, setCanSubmit] = useState(false)
   const [username, setUsername] = useState('')
@@ -42,7 +48,13 @@ export default function Login({ client_id }: LoginProps) {
     const loginUrl = 
       `https://github.com/login/oauth/authorize?${urlLoginParams}`
 
-    history.push(loginUrl)
+    router.push(loginUrl)
+  }
+
+  if (isAuthenticated) {
+    router.push('/app')
+
+    return <Loading />
   }
 
   return (
@@ -91,8 +103,6 @@ export default function Login({ client_id }: LoginProps) {
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const { GITHUB_CLIENT_ID } = process.env
-
-  console.log(context.req.headers)
 
   return {
     props: {
