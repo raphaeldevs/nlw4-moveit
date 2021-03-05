@@ -1,8 +1,12 @@
 import { useContext } from 'react'
+
+import { AuthContext } from '../contexts/AuthContext'
 import { ChallengesContext } from '../contexts/ChallengesContext'
+
 import styles from '../styles/components/Profile.module.css'
 
 export function Profile() {
+  const { signOut } = useContext(AuthContext)
   const { level } = useContext(ChallengesContext)
 
   return (
@@ -15,6 +19,10 @@ export function Profile() {
           Level {level}
         </p>
       </div>
+
+      <button onClick={signOut} title="Sair">
+        <img src="icons/close.svg" alt="Close"/>
+      </button>
     </div>
   )
 }
