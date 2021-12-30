@@ -1,14 +1,7 @@
 <h1 align="center">
   <img src=".github/project.svg" alt="Preview do Move.it">
-  <a href="http://moveit-bice-chi.vercel.app/">Move.it</a>
+  <a href="https://nlw4-moveit-sage.vercel.app/">Move.it</a>
 </h1>
-<!-- 
-  Technologies OK,
-  Preview OK,
-  Getting started OK,
-  Project OK,
-  License Ok OK
--->
 
 O <a href="http://moveit-bice-chi.vercel.app/">Move.it</a> é um pomodoro gameficado que o desafia a cada fim de ciclo de trabalho, a fim de sempre lembrá-lo de se exercitar
 
@@ -22,7 +15,7 @@ O <a href="http://moveit-bice-chi.vercel.app/">Move.it</a> é um pomodoro gamefi
 
 ## :desktop_computer: Versão online
 
-[Link para projeto](http://moveit-bice-chi.vercel.app/)
+[Link para projeto](https://nlw4-moveit-sage.vercel.app/)
 
 ## :test_tube: Testando localmente
 
